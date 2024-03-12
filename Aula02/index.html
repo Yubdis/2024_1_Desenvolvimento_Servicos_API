@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula-02 JavaScript & JQuery</title>
+</head>
+<body>
+    
+    <form method="POST" action="salvar.php" 
+        onsubmit="return validarForm()">
+        Valores de 1 a 10:
+        <input type="text" name="txtNumero" id="txtNumero"><br>
+        <p id="info"></p>
+        <input type="submit" value="Enviar">
+    </form>
+    <hr>
+    
+  
+    Valor 1:
+    <input type="text" name="val1" id="val1"><br>
+    Valor 2:
+    <input type="text" name="val2" id="val2"><br>
+    <button onclick="somaNum()" id="soma">Soma</button>
+    <p id="detalhes"></p>
+    
+
+    <script src="script.js" type="application/javascript"></script>
+</body>
+</html>
