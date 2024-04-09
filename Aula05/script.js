@@ -82,3 +82,24 @@ function excluir(id){
     xhttp.open("GET", "servidor.php?excluir&id="+id, true);
     xhttp.send();
 }
+
+function inserir(){
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function(){
+        if( this.readyState == 4 && this.status == 200){
+            dados = JSON.parse(this.responseText);
+            if( dados.resposta){
+                alert( dados.resposta );
+                lerProdutos();
+            }
+        }
+
+    }
+    nome = document.getElementById("txtNome").value;
+    preco = document.getElementById("txtPreco").value;
+    qtd = document.getElementById("txtQtd").value;
+    xhttp.open("POST", "servidor.php?inserir", true);
+    xhttp.setRequestHeader("Content-type",
+            "application/x-www-form-urlencoded");
+    xhttp.send("nome="+nome+"&preco="+preco+"&qtd="+qtd);
+}
