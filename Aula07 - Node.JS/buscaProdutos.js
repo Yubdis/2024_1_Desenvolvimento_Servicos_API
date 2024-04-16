@@ -18,7 +18,7 @@ const server = http.createServer((req, res) => {
 
     conn.connect(function(erro){
         if( !erro ){
-            sql = "SELECT * FROM produto ORDER BY nome";
+            sql = "SELECT p.id, p.nome, p.preco, p.quantidade, c.nome AS cat FROM produto p INNER JOIN categoria c ON c.id = p.codCategoria ORDER BY p.nome";
             conn.query(sql, function(err, result, fields){
                 if (!err){
                     res.end(JSON.stringify(result) );
