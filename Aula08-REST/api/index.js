@@ -10,6 +10,8 @@ app.get('/', (req,res) => {
 app.get('/produto', (req, res) => {
     res.send( produtos )
 })
+
+// construcao do end point (request / response)
 app.get('/produto/:idProd', (req, res) => {
     index = parseInt( req.params.idProd ) - 1
     res.send( produtos[index] )
