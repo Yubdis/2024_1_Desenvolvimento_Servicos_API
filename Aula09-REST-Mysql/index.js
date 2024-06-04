@@ -83,3 +83,56 @@ server.del('/categoria/:idCategoria' , (req, res, next) =>{
     }, next)
 } )
 
+server.get('/produto' , (req, res, next) =>{
+    knex('produto').then( (dados) => {
+        res.send( dados )
+    }, next)
+} )
+
+server.get('/produto/:idProduto' , (req, res, next) =>{
+    const idProd = req.params.idProduto
+    knex('produto')
+    .where( 'id' , idProd)
+    .first()
+    .then( (dados) => {
+        if( !dados || dados == ""){
+            return res.send(
+                new errors.BadRequestError('Produto nao encontrado')
+            )
+        }
+        res.send( dados )
+    }, next)
+} )
+
+server.post('/produto' , (req, res, next) =>{
+    knex('produto')
+    .insert( req.body )
+    .then( (dados) => {
+        res.send( dados )
+    }, next)
+} )
+
+server.put('/produto/:idProduto' , (req, res, next) =>{
+    const idProd = req.params.idProduto
+    knex('produto')
+    .where( 'id' , idProd)
+    .update( req.body )
+    .then( (dados) => {
+        if( !dados || dados == ""){
+            return res.send(
+                new errors.BadRequestError('Produto nao encontrado')
+            )
+        }
+        res.send( "Produto Atualizado" )
+    }, next)
+}
+)
+server.del('/produto/:idProduto' , (req, res, next) =>{
+    const idProd = req.params.idProduto
+    knex('produto')
+    .where( 'id' , idProd)
+    .delete()
+    .then( (dados) => {
+        res.send( "Produto Excluido" )
+    }, next)
+} )
