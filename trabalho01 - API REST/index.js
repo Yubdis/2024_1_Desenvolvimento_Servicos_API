@@ -29,53 +29,53 @@ server.get( '/' , (req, res, next) =>{
     res.send("Bem-vindo(a) a API da Lojinha")
 } )
 
-server.get('/categoria' , (req, res, next) =>{
-    knex('categoria').then( (dados) => {
+server.get('/categorias' , (req, res, next) =>{
+    knex('categorias').then( (dados) => {
         res.send( dados )
     }, next)
 } )
 
-server.get('/categoria/:idCategoria' , (req, res, next) =>{
+server.get('/categorias/:idCategoria' , (req, res, next) =>{
     const idCat = req.params.idCategoria
-    knex('categoria')
+    knex('categorias')
     .where( 'id' , idCat)
     .first()
     .then( (dados) => {
         if( !dados || dados == ""){
             return res.send(
-                new errors.BadRequestError('Produto nao encontrado')
+                new errors.BadRequestError('Categoria nao encontrado')
             )
         }
         res.send( dados )
     }, next)
 } )
 
-server.post('/categoria' , (req, res, next) =>{
-    knex('categoria')
+server.post('/categorias' , (req, res, next) =>{
+    knex('categorias')
     .insert( req.body )
     .then( (dados) => {
         res.send( dados )
     }, next)
 } )
 
-server.put('/categoria/:idCategoria' , (req, res, next) =>{
+server.put('/categorias/:idCategoria' , (req, res, next) =>{
     const idCat = req.params.idCategoria
-    knex('categoria')
+    knex('categorias')
     .where( 'id' , idCat)
     .update( req.body )
     .then( (dados) => {
         if( !dados || dados == ""){
             return res.send(
-                new errors.BadRequestError('Produto nao encontrado')
+                new errors.BadRequestError('Categoria nao encontrado')
             )
         }
         res.send( "Produto Atualizado" )
     }, next)
 }
 )
-server.del('/categoria/:idCategoria' , (req, res, next) =>{
+server.del('/categorias/:idCategoria' , (req, res, next) =>{
     const idCat = req.params.idCategoria
-    knex('categoria')
+    knex('categorias')
     .where( 'id' , idCat)
     .delete()
     .then( (dados) => {
@@ -83,10 +83,10 @@ server.del('/categoria/:idCategoria' , (req, res, next) =>{
     }, next)
 } )
 
-server.get('/produto' , (req, res, next) =>{
-    knex('produto')
-    .join("categoria", "produto.codCategoria", "=", "categoria.id")
-    .select("produto.id", "produto.nome", "produto.preco", "categoria.nome AS cat")
+server.get('/produtos' , (req, res, next) =>{
+    knex('produtos')
+    .join("categorias", "produtos.codCategoria", "=", "categorias.id")
+    .select("produtos.id", "produtos.nome", "produtos.preco", "categorias.nome AS cat")
     .then( (dados) => {
         if (!dados || dados == ""){
             return res.send(
@@ -97,9 +97,9 @@ server.get('/produto' , (req, res, next) =>{
     }, next)
 } )
 
-server.get('/produto/:idProduto' , (req, res, next) =>{
+server.get('/produtos/:idProduto' , (req, res, next) =>{
     const idProd = req.params.idProduto
-    knex('produto')
+    knex('produtos')
     .where( 'id' , idProd)
     .first()
     .then( (dados) => {
@@ -112,17 +112,17 @@ server.get('/produto/:idProduto' , (req, res, next) =>{
     }, next)
 } )
 
-server.post('/produto' , (req, res, next) =>{
-    knex('produto')
+server.post('/produtos' , (req, res, next) =>{
+    knex('produtos')
     .insert( req.body )
     .then( (dados) => {
         res.send( dados )
     }, next)
 } )
 
-server.put('/produto/:idProduto' , (req, res, next) =>{
+server.put('/produtos/:idProduto' , (req, res, next) =>{
     const idProd = req.params.idProduto
-    knex('produto')
+    knex('produtos')
     .where( 'id' , idProd)
     .update( req.body )
     .then( (dados) => {
@@ -135,12 +135,136 @@ server.put('/produto/:idProduto' , (req, res, next) =>{
     }, next)
 }
 )
-server.del('/produto/:idProduto' , (req, res, next) =>{
+server.del('/produtos/:idProduto' , (req, res, next) =>{
     const idProd = req.params.idProduto
-    knex('produto')
+    knex('produtos')
     .where( 'id' , idProd)
     .delete()
     .then( (dados) => {
         res.send( "Produto Excluido" )
+    }, next)
+} )
+
+server.get('/clientes' , (req, res, next) =>{
+    knex('clientes')
+    .join("cidades", "clientes.cidade_id", "=", "cidades.id")
+    .select("clientes.id", "clientes.nome", "clientes.altura", "cidades.nome AS Cidade")
+    .then( (dados) => {
+        if (!dados || dados == ""){
+            return res.send(
+                new errors.BadRequestError('Cliente não encontrado')
+            )
+        }
+        res.send( dados )
+    }, next)
+} )
+
+server.get('/clientes/:idCliente' , (req, res, next) =>{
+    const idCliente = req.params.idCliente
+    knex('clientes')
+    .where( 'id' , idCliente)
+    .first()
+    .then( (dados) => {
+        if( !dados || dados == ""){
+            return res.send(
+                new errors.BadRequestError('Cliente nao encontrado')
+            )
+        }
+        res.send( dados )
+    }, next)
+} )
+
+server.post('/clientes' , (req, res, next) =>{
+    knex('clientes')
+    .insert( req.body )
+    .then( (dados) => {
+        res.send( dados )
+    }, next)
+} )
+
+server.put('/clientes/:idCliente' , (req, res, next) =>{
+    const idCliente = req.params.idCliente
+    knex('clientes')
+    .where( 'id' , idCliente)
+    .update( req.body )
+    .then( (dados) => {
+        if( !dados || dados == ""){
+            return res.send(
+                new errors.BadRequestError('Cliente nao encontrado')
+            )
+        }
+        res.send( "Cliente Atualizado" )
+    }, next)
+}
+)
+server.del('/clientes/:idCliente' , (req, res, next) =>{
+    const idCliente = req.params.idCliente
+    knex('clientes')
+    .where( 'id' , idCliente)
+    .delete()
+    .then( (dados) => {
+        res.send( "Cliente Excluido" )
+    }, next)
+} )
+
+server.get('/pedidos' , (req, res, next) =>{
+    knex('pedidos')
+    .join("clientes", "pedidos.cliente_id", "=", "clientes.id")
+    .select("pedidos.id", "pedidos.horario", "pedidos.endereco", "clientes.nome AS Cliente")
+    .then( (dados) => {
+        if (!dados || dados == ""){
+            return res.send(
+                new errors.BadRequestError('Pedido não encontrado')
+            )
+        }
+        res.send( dados )
+    }, next)
+} )
+
+server.get('/pedidos/:idPedidos' , (req, res, next) =>{
+    const idPedidos = req.params.idPedidos
+    knex('pedidos')
+    .where( 'id' , idPedidos)
+    .first()
+    .then( (dados) => {
+        if( !dados || dados == ""){
+            return res.send(
+                new errors.BadRequestError('Pedido nao encontrado')
+            )
+        }
+        res.send( dados )
+    }, next)
+} )
+
+server.post('/pedidos' , (req, res, next) =>{
+    knex('pedidos')
+    .insert( req.body )
+    .then( (dados) => {
+        res.send( dados )
+    }, next)
+} )
+
+server.put('/pedidos/:idPedidos' , (req, res, next) =>{
+    const idPedidos = req.params.idPedidos
+    knex('pedidos')
+    .where( 'id' , idPedidos)
+    .update( req.body )
+    .then( (dados) => {
+        if( !dados || dados == ""){
+            return res.send(
+                new errors.BadRequestError('Pedido nao encontrado')
+            )
+        }
+        res.send( "Pedido Atualizado" )
+    }, next)
+}
+)
+server.del('/pedidos/:idPedidos' , (req, res, next) =>{
+    const idPedidos = req.params.idPedidos
+    knex('pedidos')
+    .where( 'id' , idPedidos)
+    .delete()
+    .then( (dados) => {
+        res.send( "Pedido Excluido" )
     }, next)
 } )
