@@ -86,7 +86,7 @@ server.del('/categorias/:idCategoria' , (req, res, next) =>{
 server.get('/produtos' , (req, res, next) =>{
     knex('produtos')
     .join("categorias", "produtos.codCategoria", "=", "categorias.id")
-    .select("produtos.id", "produtos.nome", "produtos.preco", "categorias.nome AS cat")
+    .select("produtos.id", "produtos.nome", "produtos.preco", "produtos.quantidade", "categorias.nome AS cat")
     .then( (dados) => {
         if (!dados || dados == ""){
             return res.send(
@@ -148,7 +148,7 @@ server.del('/produtos/:idProduto' , (req, res, next) =>{
 server.get('/clientes' , (req, res, next) =>{
     knex('clientes')
     .join("cidades", "clientes.cidade_id", "=", "cidades.id")
-    .select("clientes.id", "clientes.nome", "clientes.altura", "cidades.nome AS Cidade")
+    .select("clientes.id", "clientes.nome", "clientes.altura", "clientes.nascimento", "cidades.nome AS Cidade")
     .then( (dados) => {
         if (!dados || dados == ""){
             return res.send(
@@ -263,6 +263,69 @@ server.del('/pedidos/:idPedidos' , (req, res, next) =>{
     const idPedidos = req.params.idPedidos
     knex('pedidos')
     .where( 'id' , idPedidos)
+    .delete()
+    .then( (dados) => {
+        res.send( "Pedido Excluido" )
+    }, next)
+} )
+
+server.get('/pedidos_produtos' , (req, res, next) =>{
+    knex('pedidos_produtos')
+    .join("pedidos", "pedidos_produtos.pedido_id", "=", "pedidos.id")
+    .join("produtos", "pedidos_produtos.produtos_id", "=", "produtos.id")
+    .select("pedidos_produtos.pedido_id", "pedidos_produtos.produto_id", "pedidos_produtos.preco", "pedidos_produtos.quantidade")
+    .then( (dados) => {
+        if (!dados || dados == ""){
+            return res.send(
+                new errors.BadRequestError('Pedido não encontrado')
+            )
+        }
+        res.send( dados )
+    }, next)
+} )
+
+server.get('/pedidos_produtos/:idPedidosProdutos' , (req, res, next) =>{
+    const idPedidosProdutos = req.params.idPedidosProdutos
+    knex('pedidos_produtos')
+    .where( 'id' , idPedidosProdutos)
+    .first()
+    .then( (dados) => {
+        if( !dados || dados == ""){
+            return res.send(
+                new errors.BadRequestError('Pedido nao encontrado')
+            )
+        }
+        res.send( dados )
+    }, next)
+} )
+
+server.post('/pedidos_produtos' , (req, res, next) =>{
+    knex('pedidos_produtos')
+    .insert( req.body )
+    .then( (dados) => {
+        res.send( dados )
+    }, next)
+} )
+
+server.put('/pedidos_produtos/:idPedidosProdutos' , (req, res, next) =>{
+    const idPedidosProdutos = req.params.idPedidosProdutos
+    knex('pedidos_produtos')
+    .where( 'id' , idPedidosProdutos)
+    .update( req.body )
+    .then( (dados) => {
+        if( !dados || dados == ""){
+            return res.send(
+                new errors.BadRequestError('Pedido nao encontrado')
+            )
+        }
+        res.send( "Pedido Atualizado" )
+    }, next)
+}
+)
+server.del('/pedidos_produtos/:idPedidosProdutos' , (req, res, next) =>{
+    const idPedidosProdutos = req.params.idPedidosProdutos
+    knex('pedidos_produtos')
+    .where( 'id' , idPedidosProdutos)
     .delete()
     .then( (dados) => {
         res.send( "Pedido Excluido" )
