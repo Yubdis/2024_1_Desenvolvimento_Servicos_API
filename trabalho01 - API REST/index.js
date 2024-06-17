@@ -13,7 +13,7 @@ server.use( restify.plugins.bodyParser() );
 
 server.listen( 8001 , function() {
     console.log("%s executando em %s", server.name, server.url)
-});
+})
 
 knex = require('knex')({
     client : 'mysql' ,
@@ -23,7 +23,7 @@ knex = require('knex')({
         password : '' ,
         database : 'lojinha_2024_1'
     }
-});
+})
 
 server.get( '/' , (req, res, next) =>{
     res.send("Bem-vindo(a) a API da Lojinha")
@@ -98,7 +98,7 @@ server.del('/categorias/:idCategoria' , (req, res, next) =>{
 // } )
 
 server.get('/produtos' , (req, res, next) =>{
-    knex('produto').then( (dados) => {
+    knex('produtos').then( (dados) => {
         res.send( dados )
     }, next)
 } )
