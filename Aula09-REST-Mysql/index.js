@@ -26,7 +26,7 @@ knex = require('knex')({
 })
 
 server.get( '/' , (req, res, next) =>{
-    res.send("Bem-vindo(a) a API da Lojinha")
+    res.send("Welcome to API da Lojinha")
 } )
 
 server.get('/categoria' , (req, res, next) =>{
