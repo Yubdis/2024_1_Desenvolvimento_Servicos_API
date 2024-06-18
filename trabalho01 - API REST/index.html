@@ -8,9 +8,23 @@
   <title>Lojinha API Front End</title>
 </head>
 
-<body>
-  <h1>Welcome to Lojinha API</h1>
+<body onload="buscarCategorias()">
 
+  <input type="text" name="" id="txtNome">
+  <input type="button" value="Adicionar" onclick="add()">
+
+  <hr>
+
+  <table border="1" id="tblCategorias">
+    <tr>
+      <th>Código</th> 
+      <th>Nome</th>
+      <th>Excluir</th>
+    </tr>
+
+
+  </table>
+  <!-- <h1>Welcome to Lojinha API</h1>
 
   <h2>Categorias</h2>
   <form action="http://localhost:8001/submit-form" method="POST">
@@ -45,7 +59,7 @@
   <button onclick="lerProdutos()">Ler Produtos</button>
   <div id="divProdutos"></div>
 
-  <div id="result"></div>
+  <div id="result"></div> -->
 
   <script src="script.js"></script>
 </body>
