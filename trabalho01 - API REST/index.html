@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Lojinha API Front End</title>
+</head>
+
+<body>
+  <h1>Welcome to Lojinha API</h1>
+
+
+  <h2>Categorias</h2>
+  <form action="http://localhost:8001/submit-form" method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+  <button onclick="lerCategorias()">Ler Categorias</button>
+  <div id="divDados"></div>
+  <hr>
+  <input type="text" id="txtNome" placeholder="Nome: " /><br>
+  <input type="text" id="txtPreco" placeholder="Preço: " /><br>
+  <input type="text" id="txtQtd" placeholder="Quantidade: " /><br>
+  <button onclick="inserir()">Inserir</button>
+  <h2>Products</h2>
+  <button onclick="lerDados()">Ler Dados</button>
+  <div id="divDados"></div>
+  <hr>
+
+  <input type="text" id="txtNome" placeholder="Nome: " /><br>
+  <input type="text" id="txtPreco" placeholder="Preço: " /><br>
+  <input type="text" id="txtQtd" placeholder="Quantidade: " /><br>
+  <button onclick="inserir()">Inserir</button>
+
+  <hr>
+
+  <hr>
+  <button onclick="lerProdutos()">Ler Produtos</button>
+  <div id="divProdutos"></div>
+
+  <div id="result"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
