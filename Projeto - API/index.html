@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Game Night API Front End</title>
+</head>
+
+<body onload="fetchGames()">
+
+  <input type="text" id="txtGameName" placeholder="Enter game name">
+  <input type="button" value="Add Game" onclick="addGame()">
+
+  <hr>
+
+  <table border="1" id="tblGames">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Delete</th>
+    </tr>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
