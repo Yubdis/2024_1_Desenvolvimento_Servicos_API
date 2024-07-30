@@ -8,9 +8,10 @@
   <title>Game Night API Front End</title>
 </head>
 
-<body onload="fetchGames()">
+<body onload="initialize()">
 
   <input type="text" id="txtGameName" placeholder="Enter game name">
+  <textarea id="txtGameDescription" placeholder="Enter game description" maxlength="255"></textarea>
   <input type="button" value="Add Game" onclick="addGame()">
 
   <hr>
@@ -19,10 +20,68 @@
     <tr>
       <th>ID</th>
       <th>Name</th>
-      <th>Delete</th>
+      <th>Description</th>
+      <th class="delete">Delete</th>
     </tr>
   </table>
 
+  <hr>
+
+    <input type="text" id="txtUser" placeholder="Enter User name">
+    <input type="email" id="txtUserEmail" placeholder="Enter User Email">
+    <input type="button" value="Add User" onclick="addUser()">
+
+    <hr>
+
+    <table border="1" id="tblUsers">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th class="delete">Delete</th>
+      </tr>
+    </table>
+
+  <hr>
+
+    <input type="text" id="txtGameNight" placeholder="Enter Game Night">
+    <input id="txtGameNightLocation" placeholder="Enter game night location">
+    <input type="date" id="txtGameNightDate" placeholder="Select date">
+    <input type="time" id="txtGameNightTime" placeholder="Select time">
+    <input type="button" value="Add Game Night" onclick="addGameNight()">
+
+    <hr>
+
+    <table border="1" id="tblGameNights">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th class="delete">Delete</th>
+      </tr>
+    </table>
+
+    <hr>
+
+    <h2>View Game Participants</h2>
+    <input type="text" id="txtGameId" placeholder="Enter Game Night ID">
+    <input type="button" value="View Participants" onclick="fetchParticipantsByGameId()">
+
+    <table border="1" id="tblParticipants">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Game Night</th>
+        <th class="delete"Delete</th>
+      </tr>
+    </table>
+
+    <h2>Add Participant to Game Night</h2>
+    <select id="selectUser"></select>
+    <select id="selectGameNight"></select>
+    <input type="button" value="Add Participant" onclick="addParticipant()">
   <script src="script.js"></script>
 </body>
 

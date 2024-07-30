@@ -237,18 +237,33 @@ server.del("/gamenights/:gameNightId", (req, res, next) => {
 
 // PARTICIPANTS ROUTES
 server.get("/participants", (req, res, next) => {
-  db("Participants")
-    .join("Users", "Participants.user_id", "=", "Users.user_id")
-    .join("GameNights", "Participants.game_night_id", "=", "GameNights.game_night_id")
-    .select("Participants.participant_id", "Users.username", "GameNights.name AS GameNight")
-    .then(
-      (data) => {
-        res.send(data);
-      },
-      next
-    );
+    const gameId = req.query.gameId;
+
+    db("Participants")
+        .join("Users", "Participants.user_id", "=", "Users.user_id")
+        .join("GameNights", "Participants.game_night_id", "=", "GameNights.game_night_id")
+        .select("Participants.participant_id", "Users.username", "GameNights.name AS GameNight")
+        .where("GameNights.game_night_id", gameId)
+        .then(
+            (data) => {
+                res.send(data);
+            },
+            next
+        );
 });
 
+server.post("/participants", (req, res, next) => {
+    const { user_id, game_night_id } = req.body;
+
+    db("Participants")
+        .insert({ user_id, game_night_id })
+        .then(
+            (data) => {
+                res.send(data);
+            },
+            next
+        );
+});
 server.get("/participants/:participantId", (req, res, next) => {
   const participantId = req.params.participantId;
   db("Participants")
@@ -265,16 +280,6 @@ server.get("/participants/:participantId", (req, res, next) => {
     );
 });
 
-server.post("/participants", (req, res, next) => {
-  db("Participants")
-    .insert(req.body)
-    .then(
-      (data) => {
-        res.send(data);
-      },
-      next
-    );
-});
 
 server.put("/participants/:participantId", (req, res, next) => {
   const participantId = req.params.participantId;
@@ -293,14 +298,18 @@ server.put("/participants/:participantId", (req, res, next) => {
 });
 
 server.del("/participants/:participantId", (req, res, next) => {
-  const participantId = req.params.participantId;
-  db("Participants")
-    .where("participant_id", participantId)
-    .delete()
-    .then(
-      (data) => {
-        res.send("Participant deleted");
-      },
-      next
-    );
+    const participantId = req.params.participantId;
+
+    db("Participants")
+        .where("participant_id", participantId)
+        .delete()
+        .then(
+            (data) => {
+                if (data === 0) {
+                    return res.send(new errors.BadRequestError("Participant not found"));
+                }
+                res.send("Participant deleted");
+            },
+            next
+        );
 });
